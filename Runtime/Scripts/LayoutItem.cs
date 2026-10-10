@@ -73,6 +73,38 @@ namespace Poke.UI
             }
         }
 
+        public float MinWidth {
+            get => m_minWidth;
+            set {
+                m_minWidth = Mathf.Max(0, value);
+                SetDirty();
+            }
+        }
+
+        public float MinHeight {
+            get => m_minHeight;
+            set {
+                m_minHeight = Mathf.Max(0, value);
+                SetDirty();
+            }
+        }
+
+        public float MaxWidth {
+            get => m_maxWidth;
+            set {
+                m_maxWidth = Mathf.Max(0, value);
+                SetDirty();
+            }
+        }
+
+        public float MaxHeight {
+            get => m_maxHeight;
+            set {
+                m_maxHeight = Mathf.Max(0, value);
+                SetDirty();
+            }
+        }
+
         public bool UseMinWidth {
             get => m_useMinWidth;
             set {
@@ -107,9 +139,13 @@ namespace Poke.UI
         
         public RectTransform Rect => _rect;
         public DrivenTransformProperties TrackerProps => _trackerProps;
-        public SizeModes Sizing => m_sizing;
-        public float MaxWidth => m_maxWidth;
-        public float MaxHeight => m_maxHeight;
+        public SizeModes Sizing {
+            get => m_sizing;
+            set {
+                m_sizing = value;
+                SetDirty();
+            }
+        }
         #endregion
         
         protected RectTransform _rect;
