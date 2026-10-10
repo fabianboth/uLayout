@@ -318,6 +318,8 @@ namespace Poke.UI
             if(IsRowDirection() && m_wrap && _contentSize.x > _innerSize.x) {
                 PackLines();
             }
+
+            _preferredWidth = m_sizing.x == SizingMode.Fixed ? _rect.rect.size.x : ClampWidth(_contentSize.x + m_padding.left + m_padding.right);
         }
 
         public override void CalculateLayoutInputVertical() {
@@ -403,6 +405,8 @@ namespace Poke.UI
             if(!IsRowDirection() && m_wrap && _contentSize.y > _innerSize.y) {
                 PackColumns();
             }
+
+            _preferredHeight = m_sizing.y == SizingMode.Fixed ? _rect.rect.size.y : ClampHeight(_contentSize.y + m_padding.top + m_padding.bottom);
         }
 
         public void SetLayoutHorizontal() {
@@ -997,7 +1001,7 @@ namespace Poke.UI
                             continue;
                         
                         size = leftover * (c.li.flexibleWidth / flexTotal) - c.margins.left - c.margins.right;
-                        if(c.li.UseMaxWidth) size = Mathf.Min(c.li.preferredWidth, size);
+                        if(c.li.UseMaxWidth) size = Mathf.Min(c.li.MaxWidth, size);
                         if(c.li.UseMinWidth) size = Mathf.Max(c.li.minWidth, size);
                         
                         Log($"growing \"{c.li.name}\" x axis ({size}) - margins: {c.margins.left}, {c.margins.right}");
@@ -1033,7 +1037,7 @@ namespace Poke.UI
                             continue;
                         
                         size = crossSize - c.margins.left - c.margins.right;
-                        if(c.li.UseMaxWidth) size = Mathf.Min(c.li.preferredWidth, size);
+                        if(c.li.UseMaxWidth) size = Mathf.Min(c.li.MaxWidth, size);
                         if(c.li.UseMinWidth) size = Mathf.Max(c.li.minWidth, size);
                         
                         Log($"growing \"{c.li.name}\" x axis ({size})");
@@ -1084,7 +1088,7 @@ namespace Poke.UI
                             continue;
                         
                         size = crossSize - c.margins.top - c.margins.bottom;
-                        if(c.li.UseMaxHeight) size = Mathf.Min(c.li.preferredHeight, size);
+                        if(c.li.UseMaxHeight) size = Mathf.Min(c.li.MaxHeight, size);
                         if(c.li.UseMinHeight) size = Mathf.Max(c.li.minHeight, size);
                         
                         Log($"growing \"{c.li.name}\" y axis ({size})");
@@ -1116,7 +1120,7 @@ namespace Poke.UI
                             continue;
                         
                         size = leftover * (c.li.flexibleHeight / flexTotal) - c.margins.top - c.margins.bottom;
-                        if(c.li.UseMaxHeight) size = Mathf.Min(c.li.preferredHeight, size);
+                        if(c.li.UseMaxHeight) size = Mathf.Min(c.li.MaxHeight, size);
                         if(c.li.UseMinHeight) size = Mathf.Max(c.li.minHeight, size);
                         
                         Log($"growing \"{c.li.name}\" y axis ({size})");
@@ -1416,7 +1420,7 @@ namespace Poke.UI
                             continue;
                         
                         float size = _rect.rect.size.x - m_padding.left - m_padding.right - c.margins.left - c.margins.right;
-                        if(c.li.UseMaxWidth) size = Mathf.Min(c.li.preferredWidth, size);
+                        if(c.li.UseMaxWidth) size = Mathf.Min(c.li.MaxWidth, size);
                         if(c.li.UseMaxWidth) size = Mathf.Max(c.li.minWidth, size);
                         
                         Log($"growing \"{c.li.name}\" y axis ({size})");
@@ -1463,7 +1467,7 @@ namespace Poke.UI
                                 // Log($"line width: {line.crossSize}");
                                 
                                 float size = line.crossSize - c.margins.left - c.margins.right;
-                                if(c.li.UseMaxWidth) size = Mathf.Min(c.li.preferredWidth, size);
+                                if(c.li.UseMaxWidth) size = Mathf.Min(c.li.MaxWidth, size);
                                 if(c.li.UseMinWidth) size = Mathf.Max(c.li.minWidth, size);
                                 
                                 Log($"growing \"{c.li.name}\" x axis ({size})");
@@ -1480,7 +1484,7 @@ namespace Poke.UI
                                 continue;
 
                             float size = leftover * (c.li.flexibleWidth / flexTotal) - c.margins.left - c.margins.right;
-                            if(c.li.UseMaxWidth) size = Mathf.Min(c.li.preferredWidth, size);
+                            if(c.li.UseMaxWidth) size = Mathf.Min(c.li.MaxWidth, size);
                             if(c.li.UseMaxWidth) size = Mathf.Max(c.li.minWidth, size);
                             
                             line.crossSize = size + c.margins.left + c.margins.right;
@@ -1536,7 +1540,7 @@ namespace Poke.UI
                                 // Log($"line height: {line.crossSize}");
                                 
                                 size = line.crossSize - c.margins.top - c.margins.bottom;
-                                if(c.li.UseMaxHeight) size = Mathf.Min(c.li.preferredHeight, size);
+                                if(c.li.UseMaxHeight) size = Mathf.Min(c.li.MaxHeight, size);
                                 if(c.li.UseMinHeight) size = Mathf.Max(c.li.minHeight, size);
                                 
                                 Log($"growing \"{c.li.name}\" y axis ({size})");
@@ -1553,7 +1557,7 @@ namespace Poke.UI
                                 continue;
 
                             size = leftover * (c.li.flexibleHeight / flexTotal) - c.margins.top - c.margins.bottom;
-                            if(c.li.UseMaxHeight) size = Mathf.Min(c.li.preferredHeight, size);
+                            if(c.li.UseMaxHeight) size = Mathf.Min(c.li.MaxHeight, size);
                             if(c.li.UseMinHeight) size = Mathf.Max(c.li.minHeight, size);
                             
                             line.crossSize = size + c.margins.top + c.margins.bottom;
@@ -1577,7 +1581,7 @@ namespace Poke.UI
                             continue;
                         
                         size = _rect.rect.size.y - m_padding.top - m_padding.bottom - c.margins.top - c.margins.bottom;
-                        if(c.li.UseMaxHeight) size = Mathf.Min(c.li.preferredHeight, size);
+                        if(c.li.UseMaxHeight) size = Mathf.Min(c.li.MaxHeight, size);
                         if(c.li.UseMinHeight) size = Mathf.Max(c.li.minHeight, size);
                         
                         Log($"growing \"{c.li.name}\" y axis ({size})");

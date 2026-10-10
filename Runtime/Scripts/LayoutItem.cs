@@ -39,19 +39,20 @@ namespace Poke.UI
         [SerializeField] protected float            m_flexHeight = 1;
         [SerializeField] protected Margins          m_margins;
         
-        public float minWidth => m_minWidth;
-        public float minHeight => m_minHeight;
+        // ILayoutElement values carry the meaning LayoutUtility and Unity's layout groups give them
+        public float minWidth => m_useMinWidth ? m_minWidth : 0;
+        public float minHeight => m_useMinHeight ? m_minHeight : 0;
 #if UNITY_6000_6_OR_NEWER
-        public float maxWidth => m_maxWidth;
-        public float maxHeight => m_maxHeight;
+        public float maxWidth => m_useMaxWidth ? m_maxWidth : -1;
+        public float maxHeight => m_useMaxHeight ? m_maxHeight : -1;
 #endif
-        public float flexibleWidth => m_flexWidth; // relative "weight" of this item in the horizontal layout
-        public float flexibleHeight => m_flexHeight; // relative "weight" of this item in the vertical layout
-        public float preferredWidth => m_maxWidth;
-        public float preferredHeight => m_maxHeight;
+        public float flexibleWidth => m_sizing.x == SizingMode.Grow ? m_flexWidth : 0; // relative "weight" of this item in the horizontal layout
+        public float flexibleHeight => m_sizing.y == SizingMode.Grow ? m_flexHeight : 0; // relative "weight" of this item in the vertical layout
+        public float preferredWidth => _preferredWidth; // the width this item lays itself out to
+        public float preferredHeight => _preferredHeight; // the height this item lays itself out to
         public int layoutPriority => _layoutPriority; // useless in uLayout (bc only one UL component per object)
 
-        private float _preferredWidth, _preferredHeight;
+        protected float _preferredWidth, _preferredHeight;
         private int _layoutPriority;
         
         #region Properties
@@ -107,6 +108,8 @@ namespace Poke.UI
         public RectTransform Rect => _rect;
         public DrivenTransformProperties TrackerProps => _trackerProps;
         public SizeModes Sizing => m_sizing;
+        public float MaxWidth => m_maxWidth;
+        public float MaxHeight => m_maxHeight;
         #endregion
         
         protected RectTransform _rect;
@@ -289,10 +292,24 @@ namespace Poke.UI
             Log("<color=white>CalculateLayoutInputHorizontal</color>");
             RefreshTracker();
             ApplyGrowOutsideLayout();
+            _preferredWidth = m_sizing.x == SizingMode.Grow ? minWidth : _rect.rect.size.x;
         }
 
         public virtual void CalculateLayoutInputVertical() {
             Log("<color=white>CalculateLayoutInputVertical</color>");
+            _preferredHeight = m_sizing.y == SizingMode.Grow ? minHeight : _rect.rect.size.y;
+        }
+
+        protected float ClampWidth(float size) {
+            if(m_useMaxWidth) size = Mathf.Min(m_maxWidth, size);
+            if(m_useMinWidth) size = Mathf.Max(m_minWidth, size);
+            return size;
+        }
+
+        protected float ClampHeight(float size) {
+            if(m_useMaxHeight) size = Mathf.Min(m_maxHeight, size);
+            if(m_useMinHeight) size = Mathf.Max(m_minHeight, size);
+            return size;
         }
     }
 }

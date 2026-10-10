@@ -72,27 +72,25 @@ namespace Poke.UI
                 Log("<color=white>CalculateLayoutInputHorizontal</color>");
                 _preferredSize = _text.GetPreferredValues();
 
-                float size = _preferredSize.x;
-                if(m_useMaxWidth) size = Mathf.Min(m_maxWidth, size);
-                if(m_useMinWidth) size = Mathf.Max(m_minWidth, size);
+                float size = ClampWidth(_preferredSize.x);
                 
                 if(m_sizing.x == SizingMode.FitContent) {
                     _rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
                 }
+                _preferredWidth = m_sizing.x == SizingMode.Fixed ? _rect.rect.size.x : size;
             }
         }
 
         public override void CalculateLayoutInputVertical() {
             if(_dirty) {
                 Log("<color=white>CalculateLayoutInputVertical</color>");
-                if(m_sizing.y == SizingMode.FitContent) {
-                    _preferredSize = _text.GetPreferredValues();
+                _preferredSize = _text.GetPreferredValues();
+                float size = ClampHeight(_preferredSize.y);
 
-                    float size = _preferredSize.y;
-                    if(m_useMaxHeight) size = Mathf.Min(m_maxHeight, size);
-                    if(m_useMinHeight) size = Mathf.Max(m_minHeight, size);
+                if(m_sizing.y == SizingMode.FitContent) {
                     _rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
                 }
+                _preferredHeight = m_sizing.y == SizingMode.Fixed ? _rect.rect.size.y : size;
             }
 
             _dirty = false;
