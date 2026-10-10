@@ -313,7 +313,7 @@ namespace Poke.UI
             }
             
             _innerSize.x = _rect.rect.size.x - m_padding.left - m_padding.right;
-            Log($"calculated rect x size: {_rect.rect.size.x:f3}, inner: {_innerSize.x}");
+            if(m_log) Log($"calculated rect x size: {_rect.rect.size.x:f3}, inner: {_innerSize.x}");
 
             if(IsRowDirection() && m_wrap && _contentSize.x > _innerSize.x) {
                 PackLines();
@@ -381,7 +381,7 @@ namespace Poke.UI
                         break;
                 }
                 
-                Log($"calculated rect y size: {_rect.rect.size.y:f3}");
+                if(m_log) Log($"calculated rect y size: {_rect.rect.size.y:f3}");
             }
             else if(!_precalcYSize) {
                 _contentSize = Vector2.zero;
@@ -400,7 +400,7 @@ namespace Poke.UI
             }
 
             _innerSize.y = _rect.rect.size.y - m_padding.top - m_padding.bottom;
-            Log($"calculated rect y size: {_rect.rect.size.y:f3}, inner: {_innerSize.y}");
+            if(m_log) Log($"calculated rect y size: {_rect.rect.size.y:f3}, inner: {_innerSize.y}");
 
             if(!IsRowDirection() && m_wrap && _contentSize.y > _innerSize.y) {
                 PackColumns();
@@ -489,7 +489,7 @@ namespace Poke.UI
         
         #region Layout Internal
         private void HorizontalLayout(int childStartIdx, int childEndIdx, float columnWidth, float contentWidth, int ignoreCount, float startOffset = 0) {
-            Log($"Horizontal Layout - content total width: {contentWidth}");
+            if(m_log) Log($"Horizontal Layout - content total width: {contentWidth}");
             
             float offset = startOffset;
             float leftover;
@@ -553,13 +553,13 @@ namespace Poke.UI
                             offset += m_padding.left;
                             leftover = _rect.rect.size.x - contentWidth - m_padding.left - m_padding.right;
                             
-                            Log($"space-between leftover: {leftover}");
+                            if(m_log) Log($"space-between leftover: {leftover}");
                             
                             int count = childEndIdx - childStartIdx + 1;
                             if(count > 1)
                                 spacing = leftover / (count - ignoreCount - 1);
 
-                            Log($"spacing: {spacing}");
+                            if(m_log) Log($"spacing: {spacing}");
                             
                             for(int i = childStartIdx; i <= childEndIdx; i++) {
                                 ChildInfo c = _children[i];
@@ -707,7 +707,7 @@ namespace Poke.UI
         }
 
         private void VerticalLayout(int childStartIdx, int childEndIdx, float lineHeight, float contentHeight, int ignoreCount, float startOffset = 0) {
-            Log($"Vertical Layout - content size y: {contentHeight}");
+            if(m_log) Log($"Vertical Layout - content size y: {contentHeight}");
             
             float offset = 0;
             float leftover;
@@ -974,7 +974,7 @@ namespace Poke.UI
         private void GrowChildrenHorizontal() {
             if(_growChildCount.x == 0) return;
             
-            Log($"growing {_growChildCount.x} children horizontally (rect: {_rect.rect.size.x}, inner: {_innerSize.x}, content: {_contentSize.x})");
+            if(m_log) Log($"growing {_growChildCount.x} children horizontally (rect: {_rect.rect.size.x}, inner: {_innerSize.x}, content: {_contentSize.x})");
             
             float size;
             float crossSize;
@@ -1004,7 +1004,7 @@ namespace Poke.UI
                         if(c.li.UseMaxWidth) size = Mathf.Min(c.li.MaxWidth, size);
                         if(c.li.UseMinWidth) size = Mathf.Max(c.li.minWidth, size);
                         
-                        Log($"growing \"{c.li.name}\" x axis ({size}) - margins: {c.margins.left}, {c.margins.right}");
+                        if(m_log) Log($"growing \"{c.li.name}\" x axis ({size}) - margins: {c.margins.left}, {c.margins.right}");
                         
                         c.size.x = size;
                         _contentSize.x += size + c.margins.left + c.margins.right;
@@ -1040,7 +1040,7 @@ namespace Poke.UI
                         if(c.li.UseMaxWidth) size = Mathf.Min(c.li.MaxWidth, size);
                         if(c.li.UseMinWidth) size = Mathf.Max(c.li.minWidth, size);
                         
-                        Log($"growing \"{c.li.name}\" x axis ({size})");
+                        if(m_log) Log($"growing \"{c.li.name}\" x axis ({size})");
                         
                         c.size.x = size;
                         _contentSize.x = Mathf.Max(size + c.margins.left + c.margins.bottom, _contentSize.x);
@@ -1070,7 +1070,7 @@ namespace Poke.UI
         private void GrowChildrenVertical() {
             if(_growChildCount.y == 0) return;
             
-            Log($"growing {_growChildCount.y} children vertically (rect: {_rect.rect.size.y}, inner: {_innerSize.y}, content: {_contentSize.y})");
+            if(m_log) Log($"growing {_growChildCount.y} children vertically (rect: {_rect.rect.size.y}, inner: {_innerSize.y}, content: {_contentSize.y})");
             
             float size;
             float crossSize;
@@ -1091,7 +1091,7 @@ namespace Poke.UI
                         if(c.li.UseMaxHeight) size = Mathf.Min(c.li.MaxHeight, size);
                         if(c.li.UseMinHeight) size = Mathf.Max(c.li.minHeight, size);
                         
-                        Log($"growing \"{c.li.name}\" y axis ({size})");
+                        if(m_log) Log($"growing \"{c.li.name}\" y axis ({size})");
                         
                         c.size.y = size;
                         _contentSize.y = Mathf.Max(size + c.margins.top + c.margins.bottom, _contentSize.y);
@@ -1123,7 +1123,7 @@ namespace Poke.UI
                         if(c.li.UseMaxHeight) size = Mathf.Min(c.li.MaxHeight, size);
                         if(c.li.UseMinHeight) size = Mathf.Max(c.li.minHeight, size);
                         
-                        Log($"growing \"{c.li.name}\" y axis ({size})");
+                        if(m_log) Log($"growing \"{c.li.name}\" y axis ({size})");
                         c.size.y = size;
                         _contentSize.y += size + c.margins.top + c.margins.bottom;
 
@@ -1234,7 +1234,7 @@ namespace Poke.UI
             
             _lines.Add(line);
 
-            Log($"packed {_lines.Count} lines");
+            if(m_log) Log($"packed {_lines.Count} lines");
             int index = 0;
             // foreach(LineInfo l in _lines) {
             //     Log($"line {index}: {l.itemCount} items - {l.primarySize}, {l.crossSize}");
@@ -1368,7 +1368,7 @@ namespace Poke.UI
             
             _lines.Add(line);
 
-            Log($"packed {_lines.Count} columns");
+            if(m_log) Log($"packed {_lines.Count} columns");
             int index = 0;
             // foreach(LineInfo l in _lines) {
             //     Log($"line {index}: {l.itemCount} items - {l.primarySize}, {l.crossSize}");
@@ -1423,7 +1423,7 @@ namespace Poke.UI
                         if(c.li.UseMaxWidth) size = Mathf.Min(c.li.MaxWidth, size);
                         if(c.li.UseMaxWidth) size = Mathf.Max(c.li.minWidth, size);
                         
-                        Log($"growing \"{c.li.name}\" y axis ({size})");
+                        if(m_log) Log($"growing \"{c.li.name}\" y axis ({size})");
                         c.size.x = size;
                         
                         // update line size
@@ -1470,7 +1470,7 @@ namespace Poke.UI
                                 if(c.li.UseMaxWidth) size = Mathf.Min(c.li.MaxWidth, size);
                                 if(c.li.UseMinWidth) size = Mathf.Max(c.li.minWidth, size);
                                 
-                                Log($"growing \"{c.li.name}\" x axis ({size})");
+                                if(m_log) Log($"growing \"{c.li.name}\" x axis ({size})");
 
                                 // size actually needs to change
                                 if(!Mathf.Approximately(c.rect.rect.size.x, size)) {
@@ -1491,7 +1491,7 @@ namespace Poke.UI
                             _lines[l] = line;
                             _contentSize.x += size + c.margins.left + c.margins.right;
                             
-                            Log($"growing \"{c.li.name}\" x axis ({size})");
+                            if(m_log) Log($"growing \"{c.li.name}\" x axis ({size})");
                             
                             // size actually needs to change
                             if(!Mathf.Approximately(c.rect.rect.size.x, size)) {
@@ -1543,7 +1543,7 @@ namespace Poke.UI
                                 if(c.li.UseMaxHeight) size = Mathf.Min(c.li.MaxHeight, size);
                                 if(c.li.UseMinHeight) size = Mathf.Max(c.li.minHeight, size);
                                 
-                                Log($"growing \"{c.li.name}\" y axis ({size})");
+                                if(m_log) Log($"growing \"{c.li.name}\" y axis ({size})");
 
                                 // size actually needs to change
                                 if(!Mathf.Approximately(c.rect.rect.size.y, size)) {
@@ -1564,7 +1564,7 @@ namespace Poke.UI
                             _lines[l] = line;
                             _contentSize.y += size + c.margins.top + c.margins.bottom;
                             
-                            Log($"growing \"{c.li.name}\" y axis ({size})");
+                            if(m_log) Log($"growing \"{c.li.name}\" y axis ({size})");
                             
                             // size actually needs to change
                             if(!Mathf.Approximately(c.rect.rect.size.y, size)) {
@@ -1584,7 +1584,7 @@ namespace Poke.UI
                         if(c.li.UseMaxHeight) size = Mathf.Min(c.li.MaxHeight, size);
                         if(c.li.UseMinHeight) size = Mathf.Max(c.li.minHeight, size);
                         
-                        Log($"growing \"{c.li.name}\" y axis ({size})");
+                        if(m_log) Log($"growing \"{c.li.name}\" y axis ({size})");
                         c.size.y = size;
                         
                         // update line size
@@ -1603,7 +1603,7 @@ namespace Poke.UI
         #endregion
 
         public void GrowSizingXCallback(float yDiff) {
-            Log($"X Grow Callback ({yDiff})");
+            if(m_log) Log($"X Grow Callback ({yDiff})");
             // remove grow items from calculated content size
             foreach(ChildInfo c in _children) {
                 if(CheckIgnoreElem(c))
@@ -1647,7 +1647,7 @@ namespace Poke.UI
                 );
             }
 
-            Log($"old content: {oldSize}, old height: {oldHeight}\nnew content: {_contentSize.y}, new height: {_rect.rect.height}");
+            if(m_log) Log($"old content: {oldSize}, old height: {oldHeight}\nnew content: {_contentSize.y}, new height: {_rect.rect.height}");
             
             if(_parent)
                 _parent.GrowSizingXCallback(yDiff);
@@ -1678,7 +1678,7 @@ namespace Poke.UI
             _lines.Clear();
 
             int childCount = transform.childCount;
-            Log($"Refreshing child cache - {childCount} children detected");
+            if(m_log) Log($"Refreshing child cache - {childCount} children detected");
 
             int count = 0;
             for(int i = 0; i < childCount; i++) {
@@ -1687,7 +1687,7 @@ namespace Poke.UI
                 
                 LayoutItem li = rt.GetComponent<LayoutItem>();
                 
-                Log($"Adding child \"{rt.name}\" - size: {rt.rect.size}, layoutitem: {li != null}");
+                if(m_log) Log($"Adding child \"{rt.name}\" - size: {rt.rect.size}, layoutitem: {li != null}");
 
                 // entries are reused, so a change of children allocates nothing once the list has grown
                 if(count == _children.Count) _children.Add(new ChildInfo());

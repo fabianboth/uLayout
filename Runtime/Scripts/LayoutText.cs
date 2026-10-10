@@ -105,7 +105,7 @@ namespace Poke.UI
             if(m_sizing.y == SizingMode.FitContent) {
                 _text.ForceMeshUpdate();
                 _preferredSize = _text.GetPreferredValues();
-                Log($"resizing y based on x growth ({_preferredSize.y})");
+                if(m_log) Log($"resizing y based on x growth ({_preferredSize.y})");
                 
                 float size = _preferredSize.y;
                 if(m_useMaxHeight) size = Mathf.Min(m_maxHeight, size);
