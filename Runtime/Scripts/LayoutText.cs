@@ -33,11 +33,11 @@ namespace Poke.UI
 
             // TMP raises this on every change that affects its size: text, font asset, font size, style, wrapping, margins
             _text.RegisterDirtyLayoutCallback(OnTextLayoutDirty);
-            LayoutRebuilder.MarkLayoutForRebuild(_rect);
         }
 
-        protected virtual void OnDisable() {
+        protected override void OnDisable() {
             _text.UnregisterDirtyLayoutCallback(OnTextLayoutDirty);
+            base.OnDisable();
         }
 
         private void OnTextLayoutDirty() {
@@ -61,10 +61,13 @@ namespace Poke.UI
         }
 
         private void Log(object msg) {
-            if(m_log) Debug.Log($"[{_frame}] [LT:{gameObject.name}]: {msg}");
+            if(m_log) Debug.Log($"[{Time.frameCount}] [LT:{gameObject.name}]: {msg}");
         }
         
         public override void CalculateLayoutInputHorizontal() {
+            RefreshTracker();
+            ApplyGrowOutsideLayout();
+
             if(_dirty) {
                 Log("<color=white>CalculateLayoutInputHorizontal</color>");
                 _preferredSize = _text.GetPreferredValues();
