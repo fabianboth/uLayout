@@ -94,8 +94,9 @@ namespace Poke.UI.Tests
             RectTransform region = new GameObject("Region", typeof(RectTransform)).GetComponent<RectTransform>();
             region.SetParent(_stage.Content, false);
             region.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 400);
+            region.gameObject.SetActive(false);
             LayoutItem fill = Build.Item(region, "Fill").Sized(SizingMode.Grow, SizingMode.Fixed).Size(10, 20);
-            Canvas.ForceUpdateCanvases();
+            region.gameObject.SetActive(true);
 
             region.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 500);
 
