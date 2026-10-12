@@ -540,6 +540,15 @@ namespace Poke.UI
             return ci.rect == null || !ci.enabled || ci.ignoreLayout;
         }
 
+        // centring happens in the area inside the padding, whose middle sits off the rect's middle when the padding is uneven
+        private float PaddingShiftX() {
+            return (m_padding.left - m_padding.right) / 2;
+        }
+
+        private float PaddingShiftY() {
+            return (m_padding.bottom - m_padding.top) / 2;
+        }
+
         private bool IsRowDirection() {
             return m_direction == LayoutDirection.Row || m_direction == LayoutDirection.RowReverse;
         }
@@ -666,7 +675,7 @@ namespace Poke.UI
                             }
                             break;
                         case Justification.Center:
-                            offset = contentWidth/2;
+                            offset = contentWidth/2 + PaddingShiftX();
 
                             for(int i = childStartIdx; i <= childEndIdx; i++) {
                                 ChildInfo c = _children[i];
@@ -742,7 +751,7 @@ namespace Poke.UI
                             }
                             break;
                         case Alignment.Center:
-                            offset = -contentWidth / 2 + startOffset;
+                            offset = -contentWidth / 2 + startOffset + PaddingShiftX();
                             for(int i = childStartIdx; i <= childEndIdx; i++) {
                                 ChildInfo c = _children[i];
                                 // skip disabled/ignore items
@@ -801,7 +810,7 @@ namespace Poke.UI
                             }
                             break;
                         case Alignment.Center:
-                            offset = contentHeight / 2 - startOffset;
+                            offset = contentHeight / 2 - startOffset + PaddingShiftY();
                             
                             for(int i = childStartIdx; i <= childEndIdx; i++) {
                                 ChildInfo c = _children[i];
@@ -852,7 +861,7 @@ namespace Poke.UI
                             }
                             break;
                         case Justification.Center:
-                            offset = contentHeight/2 - startOffset;
+                            offset = contentHeight/2 - startOffset + PaddingShiftY();
 
                             for(int i = childStartIdx; i <= childEndIdx; i++) {
                                 ChildInfo c = _children[i];
@@ -937,7 +946,7 @@ namespace Poke.UI
                             }
                             break;
                         case Justification.Center:
-                            offset = -contentHeight/2;
+                            offset = -contentHeight/2 + PaddingShiftY();
 
                             for(int i = childStartIdx; i <= childEndIdx; i++) {
                                 ChildInfo c = _children[i];
