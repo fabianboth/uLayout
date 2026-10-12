@@ -86,6 +86,33 @@ namespace Poke.UI.Tests
             Assert.That(_stage.Box(second).xMin - _stage.Box(first).xMax, Is.EqualTo(Gap).Within(Tolerance), "one line spacing beside");
         }
 
+        [Test]
+        public void WrappedLinesAreAsTallAsTheItemsMeasureInTheSamePass() {
+            Layout strip = Build.Layout(_stage.Content, "Narrow", Layout.LayoutDirection.Row)
+                .Sized(SizingMode.Fixed, SizingMode.Fixed)
+                .Size(300, 300);
+            Layout row = Build.Layout(strip, "Row", Layout.LayoutDirection.Row)
+                .Sized(SizingMode.Grow, SizingMode.FitContent)
+                .Set("m_wrap", true)
+                .Set("m_innerSpacing", Gap)
+                .Set("m_lineSpacing", Gap);
+            Layout first = Button(row, "First");
+            Layout second = Button(row, "Second");
+
+            _stage.Show();
+
+            Assert.That(_stage.Box(first).yMin - _stage.Box(second).yMax, Is.EqualTo(Gap).Within(Tolerance), "one line spacing below");
+            Assert.That(_stage.Box(row).height, Is.EqualTo(40 + Gap + 40).Within(Tolerance), "the row holds both lines");
+        }
+
+        private static Layout Button(Layout row, string name) {
+            Layout button = Build.Layout(row, name, Layout.LayoutDirection.Row)
+                .Sized(SizingMode.FitContent, SizingMode.FitContent)
+                .Size(10, 10);
+            Build.Item(button, "Face").Sized(SizingMode.Fixed, SizingMode.Fixed).Size(200, 40);
+            return button;
+        }
+
         private void TheSecondIsBelowTheFirst() {
             Rect first = _stage.Box(_first);
             Rect second = _stage.Box(_second);
