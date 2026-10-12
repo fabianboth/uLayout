@@ -206,15 +206,20 @@ namespace Poke.UI
             if(m_log) Debug.Log($"[{_frame}] [LI:{gameObject.name}]: {msg}");
         }
         
+        // claim only what something sets: Unity serializes a claimed value as zero
         protected virtual void SetDrivenProperties() {
-            if((m_sizing.x == SizingMode.FitContent && transform.childCount > 0) || m_sizing.x == SizingMode.Grow)
+            bool grownByLayout = !_parent || !m_ignoreLayout;
+            if((m_sizing.x == SizingMode.FitContent && FitsItsContent) || (m_sizing.x == SizingMode.Grow && grownByLayout))
                 _trackerProps |= DrivenTransformProperties.SizeDeltaX;
-            if((m_sizing.y == SizingMode.FitContent && transform.childCount > 0) || m_sizing.y == SizingMode.Grow)
+            if((m_sizing.y == SizingMode.FitContent && FitsItsContent) || (m_sizing.y == SizingMode.Grow && grownByLayout))
                 _trackerProps |= DrivenTransformProperties.SizeDeltaY;
 
             if(_parent && !m_ignoreLayout) 
                 _trackerProps |= DrivenTransformProperties.AnchoredPosition | DrivenTransformProperties.Anchors;
         }
+
+        // a plain item has nothing to fit; a Layout fits its children
+        protected virtual bool FitsItsContent => false;
 
         public virtual void SetDirty() {
             _dirty = true;

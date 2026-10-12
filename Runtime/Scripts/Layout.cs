@@ -289,6 +289,8 @@ namespace Poke.UI
         }
         #endregion
 
+        protected override bool FitsItsContent => transform.childCount > 0;
+
         #region ILayoutGroup
         public override void CalculateLayoutInputHorizontal() {
             if(!_dirty) return;
