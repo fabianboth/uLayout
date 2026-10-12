@@ -10,13 +10,13 @@ A fork of [pokeblokdude/uLayout](https://github.com/pokeblokdude/uLayout) that c
 
 | Branch | Fixes | Upstream |
 |---|---|---|
-| `fix/text-layout-dirty` | A changed text, font size, style or font asset is laid out in the frame of the change | not offered yet |
-| `perf/event-driven-layout` | Layout runs only on a change, as uGUI's `LayoutGroup` does, instead of polling every frame (builds on `fix/text-layout-dirty`) | to be raised as an issue first |
+| `fix/text-layout-dirty` | A changed text, font size, style or font asset is laid out in the frame of the change | pull request #33 |
+| `perf/event-driven-layout` | Layout runs only on a change, as uGUI's `LayoutGroup` does, instead of polling every frame (builds on `fix/text-layout-dirty`) | asked in issue #34 |
 | `fix/layout-element-values` | `ILayoutElement` reports the sizes the element lays itself out to | not offered yet |
 | `fix/log-allocations` | A layout pass allocates nothing while logging is off | not offered yet |
 | `feat/size-setters` | Min and max sizes and the sizing mode are settable from code | not offered yet |
 | `fix/centre-in-padding` | Centring respects the padding on every axis | not offered yet |
-| `fix/tracker-claims` | An item claims only the `RectTransform` values something sets, so saving a prefab no longer zeroes them | not offered yet |
+| `fix/tracker-claims` | An item claims only the `RectTransform` values something sets, so saving a prefab no longer zeroes them | pull request #32 |
 | `fix/wrap` | Wrapped lines are broken once the given size and the children's heights are known | not offered yet |
 
 ## Working on it
