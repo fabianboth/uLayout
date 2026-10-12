@@ -219,6 +219,8 @@ namespace Poke.UI
         }
         #endregion
 
+        protected override bool FitsItsContent => transform.childCount > 0;
+
         #region ILayoutGroup
         public override void CalculateLayoutInputHorizontal() {
             // a layout only takes part in a rebuild when something in its tree changed, so it always lays out in full
