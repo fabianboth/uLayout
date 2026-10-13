@@ -147,7 +147,6 @@ namespace Poke.UI
                 _parentRect = transform.parent.GetComponent<RectTransform>();
                 _parent = transform.parent.GetComponent<Layout>();
             }
-            else { Debug.LogError("LayoutItem must be a child of a RectTransform!"); }
             
             _trackerProps = DrivenTransformProperties.None;
             
