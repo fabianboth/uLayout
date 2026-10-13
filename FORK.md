@@ -17,7 +17,8 @@ A fork of [pokeblokdude/uLayout](https://github.com/pokeblokdude/uLayout) that c
 | `feat/size-setters` | Min and max sizes and the sizing mode are settable from code | not offered yet |
 | `fix/centre-in-padding` | Centring respects the padding on every axis | not offered yet |
 | `fix/tracker-claims` | An item claims only the `RectTransform` values something sets, so saving a prefab no longer zeroes them | pull request #32 |
-| `fix/wrap` | Wrapped lines are broken once the given size and the children's heights are known | not offered yet |
+| `fix/wrap` | Wrapped lines are broken once the given size and the children's heights are known, and no empty line is kept at the end | not offered yet |
+| `fix/root-layout` | A layout item with nothing above it logs no error | not offered yet |
 
 ## Working on it
 
