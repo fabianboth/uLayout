@@ -1308,7 +1308,8 @@ namespace Poke.UI
                 }
             }
             
-            _lines.Add(line);
+            if(line.itemCount > 0)
+                _lines.Add(line);
 
             if(m_log) Log($"packed {_lines.Count} lines");
             int index = 0;
@@ -1442,7 +1443,8 @@ namespace Poke.UI
                 }
             }
             
-            _lines.Add(line);
+            if(line.itemCount > 0)
+                _lines.Add(line);
 
             if(m_log) Log($"packed {_lines.Count} columns");
             int index = 0;
