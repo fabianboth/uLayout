@@ -250,7 +250,7 @@ namespace Poke.UI
             }
             
             if(_children.Count > 0) {
-                float primarySize = m_justifyContent == Justification.SpaceBetween ? 0 : m_innerSpacing * (_children.Count - _ignoreCount - 1);
+                float primarySize = m_justifyContent == Justification.SpaceBetween ? 0 : m_innerSpacing * Mathf.Max(0, _children.Count - _ignoreCount - 1);
                 float crossSize = 0;
 
                 // calculate content size
@@ -341,7 +341,7 @@ namespace Poke.UI
                 MeasureLineHeights();
 
             if(_children.Count > 0 && !_precalcYSize) {
-                float primarySize = m_justifyContent == Justification.SpaceBetween ? 0 : m_innerSpacing * (_children.Count - _ignoreCount - 1);
+                float primarySize = m_justifyContent == Justification.SpaceBetween ? 0 : m_innerSpacing * Mathf.Max(0, _children.Count - _ignoreCount - 1);
                 float crossSize = 0;
 
                 // calculate content size
