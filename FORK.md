@@ -11,7 +11,7 @@ A fork of [pokeblokdude/uLayout](https://github.com/pokeblokdude/uLayout) that c
 | Branch | Fixes | Upstream |
 |---|---|---|
 | `fix/text-layout-dirty` | A changed text, font size, style or font asset is laid out in the frame of the change | pull request #33 |
-| `perf/event-driven-layout` | Layout runs only on a change, as uGUI's `LayoutGroup` does, instead of polling every frame (builds on `fix/text-layout-dirty`) | asked in issue #34 |
+| `perf/event-driven-layout` | Layout runs only on a change, as uGUI's `LayoutGroup` does, instead of polling every frame (builds on `fix/text-layout-dirty`) | pull request #35 |
 | `fix/layout-element-values` | `ILayoutElement` reports the sizes the element lays itself out to | not offered yet |
 | `fix/log-allocations` | A layout pass allocates nothing while logging is off | not offered yet |
 | `feat/size-setters` | Min and max sizes and the sizing mode are settable from code | not offered yet |
