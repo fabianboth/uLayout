@@ -132,7 +132,6 @@ namespace Poke.UI
         private Vector2Int                  _growChildCount;
         private int                         _ignoreCount;
         private Vector2                     _innerSize;
-        private Vector2                     _lastSize;
         private readonly List<LineInfo>     _lines = new();
         private bool                        _precalcYSize;
         private Vector2                     _unwrappedSize;
