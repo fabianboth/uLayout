@@ -247,7 +247,6 @@ namespace Poke.UI
 
         private void FindParent() {
             _parent = transform.parent ? transform.parent.GetComponent<Layout>() : null;
-            if(!transform.parent) Debug.LogError("LayoutItem must be a child of a RectTransform!");
         }
 
         protected virtual void RefreshTracker() {
