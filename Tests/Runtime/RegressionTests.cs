@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace Poke.UI.Tests
 {
@@ -18,6 +19,15 @@ namespace Poke.UI.Tests
         [TearDown]
         public void TearDown() {
             _stage.Dispose();
+        }
+
+        [Test]
+        public void ALayoutWithNothingAboveItLogsNoError() {
+            GameObject root = new GameObject("Root", typeof(RectTransform));
+            root.AddComponent<Layout>();
+            Object.Destroy(root);
+
+            LogAssert.NoUnexpectedReceived();
         }
 
         [TestCase("Short")]
