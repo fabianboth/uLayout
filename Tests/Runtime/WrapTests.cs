@@ -39,6 +39,21 @@ namespace Poke.UI.Tests
         }
 
         [Test]
+        public void AnItemWiderThanItsWrappingRowTakesOneLineWithNoSpacingBelow() {
+            Layout row = Build.Layout(_stage.Content, "Narrow", Layout.LayoutDirection.Row)
+                .Sized(SizingMode.Fixed, SizingMode.FitContent)
+                .Set("m_wrap", true)
+                .Set("m_lineSpacing", Gap)
+                .Size(100, 0);
+            Build.Item(row, "Wide").Sized(SizingMode.Fixed, SizingMode.Fixed).Size(200, 40);
+
+            _stage.Show();
+
+            LogAssert.NoUnexpectedReceived();
+            Assert.That(_stage.Box(row).height, Is.EqualTo(40).Within(Tolerance));
+        }
+
+        [Test]
         public void ARowInAGrowingCellWrapsAtTheCellsWidth() {
             _stage.Show();
 
