@@ -19,6 +19,7 @@ A fork of [pokeblokdude/uLayout](https://github.com/pokeblokdude/uLayout) that c
 | `fix/tracker-claims` | An item claims only the `RectTransform` values something sets, so saving a prefab no longer zeroes them | pull request #32 |
 | `fix/wrap` | Wrapped lines are broken once the given size and the children's heights are known, and no empty line is kept at the end | not offered yet |
 | `fix/root-layout` | A layout item with nothing above it logs no error | not offered yet |
+| `fix/empty-layout` | A layout whose children are all inactive or ignored fits to nothing instead of minus its spacing | not offered yet |
 
 ## Working on it
 
