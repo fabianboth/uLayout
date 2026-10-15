@@ -207,7 +207,7 @@ namespace Poke.UI
         // so every item reports its own; during a rebuild the resize is the layout's own doing
         protected virtual void OnRectTransformDimensionsChange() {
             if(_parent && !CanvasUpdateRegistry.IsRebuildingLayout())
-                _parent.MarkDirty();
+                MarkForRebuild();
         }
 
         protected virtual void OnDidApplyAnimationProperties() {
@@ -321,11 +321,9 @@ namespace Poke.UI
             MarkDirty();
         }
 
-        // marks this item and its Layout ancestors dirty and asks uGUI to rebuild from the root
         protected void MarkDirty() {
             _dirty = true;
-            if(_parent) _parent.MarkDirty();
-            else MarkForRebuild();
+            MarkForRebuild();
         }
 
         public virtual void CalculateLayoutInputHorizontal() {

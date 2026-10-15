@@ -1752,12 +1752,12 @@ namespace Poke.UI
         }
 
         private void RebuildChildCache() {
+            _children.Clear();
             _lines.Clear();
 
             int childCount = transform.childCount;
             if(m_log) Log($"Refreshing child cache - {childCount} children detected");
 
-            int count = 0;
             for(int i = 0; i < childCount; i++) {
                 RectTransform rt = transform.GetChild(i).GetComponent<RectTransform>();
                 if (rt == null) continue;
@@ -1766,17 +1766,16 @@ namespace Poke.UI
                 
                 if(m_log) Log($"Adding child \"{rt.name}\" - size: {rt.rect.size}, layoutitem: {li != null}");
 
-                // entries are reused, so a change of children allocates nothing once the list has grown
-                if(count == _children.Count) _children.Add(new ChildInfo());
-                ChildInfo c = _children[count++];
-                c.index = i;
-                c.rect = rt;
-                c.li = li;
-                c.size = rt.rect.size * (m_ignoreChildScale ? Vector2.one : rt.localScale);
-                c.lineIndex = 0;
+                ChildInfo c = new ChildInfo
+                {
+                    index = i,
+                    rect = rt,
+                    li = li,
+                    size = rt.rect.size * (m_ignoreChildScale ? Vector2.one : rt.localScale),
+                };
                 ReadChild(c);
+                _children.Add(c);
             }
-            _children.RemoveRange(count, _children.Count - count);
         }
 
         // brings every cached child up to date before a layout pass; a change of children rebuilds the cache
